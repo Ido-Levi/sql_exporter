@@ -11,6 +11,7 @@ import (
 	log "github.com/golang/glog"
 	_ "github.com/kshvakov/clickhouse" // register the ClickHouse driver
 	_ "github.com/lib/pq"              // register the PostgreSQL driver
+	_ "github.com/segmentio/go-athena" // register the Athena driver
 )
 
 // OpenConnection extracts the driver name from the DSN (expected as the URI scheme), adjusts it where necessary (e.g.
