@@ -58,6 +58,8 @@ func OpenConnection(ctx context.Context, logContext, dsn string, maxConns, maxId
 		dsn = strings.TrimPrefix(dsn, "mysql://")
 	case "clickhouse":
 		dsn = "tcp://" + strings.TrimPrefix(dsn, "clickhouse://")
+	case "athena":
+		dsn = strings.TrimPrefix(dsn, "athena://")
 	}
 
 	// Open the DB handle in a separate goroutine so we can terminate early if the context closes.
