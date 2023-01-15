@@ -231,7 +231,7 @@ func makeLabelPairs(desc MetricDesc, labelValues []string) []*dto.LabelPair {
 		})
 	}
 	labelPairs = append(labelPairs, constLabels...)
-	sort.Sort(prometheus.LabelPairSorter(labelPairs))
+	sort.Sort(LabelPairSorter(labelPairs))
 	return labelPairs
 }
 
@@ -247,3 +247,19 @@ func NewInvalidMetric(err errors.WithContext) Metric {
 func (m invalidMetric) Desc() MetricDesc { return nil }
 
 func (m invalidMetric) Write(*dto.Metric) errors.WithContext { return m.err }
+
+// LabelPairSorter implements sort.Interface. It provides a sortable version of a
+// slice of dto.LabelPair pointers.
+type LabelPairSorter []*dto.LabelPair
+
+func (s LabelPairSorter) Len() int {
+	return len(s)
+}
+
+func (s LabelPairSorter) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+
+func (s LabelPairSorter) Less(i, j int) bool {
+	return s[i].GetName() < s[j].GetName()
+}
